@@ -5,7 +5,7 @@ section {
   background: #181a20;
   color: #e0e0e0;
   letter-spacing: 0.01em;
-  font-size: 1.2em;
+  font-size: 1.7em;
   padding: 48px 64px;
 }
 
@@ -85,4 +85,16 @@ footer {
   justify-content: center;
   align-items: center;
   height: 100%;
+}
+
+.img {
+  display: flex;
+  justify-content: center;
+  height: 50%;
+}
+
+
+.txt_left {
+  display: flex;
+  justify-content: flex-start;
 }
