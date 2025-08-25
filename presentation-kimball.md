@@ -31,20 +31,24 @@ theme: dark-custom
 # L'approche de Kimball 
 ## (Star Schema)
 <div class="txt_left">
-  <li>Fact Tables (fct_table)
-    <ul>
-      <li>Granulaire</li>
-      <li>Longue</li>
-      <li>Mesurable (habituellement)</li>
-    </ul>
-  </li>
-  <li>Dimension Tables (dim_table)
-    <ul>
-      <li>Large</li>
-      <li>Slowly Changing Dimensions</li>
-      <li>Normalisation</li>
-    </ul>
-  </li>
+  <ul>
+    <li>Fact Tables (fct_table)
+      <ul>
+        <li>Granulaire</li>
+        <li>Longue</li>
+        <li>Mesurable (habituellement)</li>
+      </ul>
+    </li>
+  </ul>
+  <ul>
+    <li>Dimension Tables (dim_table)
+      <ul>
+        <li>Large</li>
+        <li>Slowly Changing Dimensions</li>
+        <li>Normalisation</li>
+      </ul>
+    </li>
+  </ul>
 </div>
 <div class="img">
   <img src="assets/basic_star.svg">
