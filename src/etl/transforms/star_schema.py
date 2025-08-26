@@ -1,35 +1,58 @@
 from datetime import datetime
 import pandas as pd
 
-def create_star_schema(pitch_data: pd.DataFrame, player_data: pd.DataFrame) -> (pd.DataFrame, pd.DataFrame, pd.DataFrame):
+def create_star_schema(
+    pitch_data: pd.DataFrame,
+    game_dim: pd.DataFrame,
+    player_dim: pd.DataFrame,
+    count_dim: pd.DataFrame,
+) -> dict:
     """
-    Create star schema for MLB pitch data.
+    Create star schema for MLB pitch data with proper foreign key relationships.
 
     Args:
         pitch_data: DataFrame containing pitch-by-pitch data.
-        player_data: DataFrame containing player information.
+        game_dim: DataFrame containing game dimension data with game_key.
+        player_dim: DataFrame containing player dimension data with player_id.
+        count_dim: DataFrame containing count dimension data with count_key.
 
     Returns:
-        Tuple of DataFrames: (fact table, game dimension, player dimension)
+        Dictionary of DataFrames: fact_pitch with proper foreign keys
     """
-    # Create Game Dimension
-    game_dim = pitch_data[['game_pk', 'game_date', 'home_team', 'away_team']].drop_duplicates()
-    game_dim['game_key'] = range(1, len(game_dim) + 1)
-    
-    # Create Player Dimension
-    player_dim = player_data[['mlb_id', 'full_name', 'position', 'bats', 'throws']].drop_duplicates()
-    player_dim['player_key'] = range(1, len(player_dim) + 1)
+    # Create fact table with foreign keys
+    fact = pitch_data.copy()
 
-    # Create Fact Table
-    fact_table = pitch_data.copy()
-    fact_table = fact_table.merge(game_dim[['game_pk', 'game_key']], on='game_pk', how='left')
-    fact_table = fact_table.merge(player_dim[['mlb_id', 'player_key']], left_on='pitcher', right_on='mlb_id', how='left')
-    fact_table = fact_table.merge(player_dim[['mlb_id', 'player_key']], left_on='batter', right_on='mlb_id', how='left', suffixes=('_pitcher', '_batter'))
+    # Add game_key from game dimension
+    fact = fact.merge(game_dim[["game_pk", "game_key"]], on="game_pk", how="left")
+
+    # Add pitcher foreign key (player_id is the primary key)
+    fact = fact.merge(
+        player_dim[["player_id"]], 
+        left_on="pitcher", 
+        right_on="player_id", 
+        how="left",
+        suffixes=("", "_pitcher_fk")
+    )
     
-    # Select relevant columns for the fact table
-    fact_table = fact_table[['game_key', 'player_key_pitcher', 'player_key_batter', 'pitch_number', 'inning', 'pitch_type', 'release_speed', 'release_spin_rate', 'events']]
-    
-    return fact_table, game_dim, player_dim
+    # Add batter foreign key  
+    fact = fact.merge(
+        player_dim[["player_id"]], 
+        left_on="batter", 
+        right_on="player_id", 
+        how="left", 
+        suffixes=("", "_batter_fk")
+    )
+
+    # Add count foreign key
+    fact = fact.merge(
+        count_dim[["balls", "strikes", "count_key"]], 
+        on=["balls", "strikes"], 
+        how="left"
+    )
+
+    return {
+        "fact_pitch": fact
+    }
 
 def save_star_schema_to_csv(fact_table: pd.DataFrame, game_dim: pd.DataFrame, player_dim: pd.DataFrame, output_dir: str):
     """

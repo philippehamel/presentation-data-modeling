@@ -1,65 +1,95 @@
-table star {
+table dim_game {
   game_key int [pk, increment]
   game_pk int
   game_date date
   season int
   game_type varchar
-  home_team_key int
-  away_team_key int
-  stadium_key int
+  home_team varchar
+  away_team varchar
+  stadium varchar
   day_of_week varchar
+  weather_temp int
+  weather_condition varchar
   total_pitches int
 }
 
-table player {
-  player_key int [pk, increment]
-  mlb_id int
+table dim_player {
+  player_id int [pk]
   full_name varchar
   first_name varchar
   last_name varchar
+  primary_number int
   birth_date date
   birth_city varchar
+  birth_state_province varchar
   birth_country varchar
   height varchar
   weight int
-  bats varchar
-  throws varchar
-  position varchar
+  active boolean
+  primary_position varchar
+  bat_side varchar
+  pitch_hand varchar
   mlb_debut_date date
   current_team_id int
-  active_status boolean
+  current_team_name varchar
   effective_date date
   expiration_date date
   is_current boolean
 }
 
-table pitch_count {
+table dim_count {
   count_key int [pk, increment]
   balls int
   strikes int
+  count_display varchar
   count_category varchar
 }
 
-table fact_pitches {
-  pitch_number int
-  inning int
-  inning_topbot varchar
-  outs_when_up int
+table fact_pitch {
   pitch_type varchar
+  game_date date
   release_speed float
-  release_spin_rate float
+  release_pos_x float
+  release_pos_z float
+  player_name varchar
+  batter int
+  pitcher int
+  events varchar
+  description varchar
+  zone int
+  des varchar
+  game_type varchar
+  stand varchar
+  p_throws varchar
+  home_team varchar
+  away_team varchar
+  type varchar
+  hit_location float
+  bb_type varchar
+  balls int
+  strikes int
+  game_year int
   pfx_x float
   pfx_z float
   plate_x float
   plate_z float
-  zone int
-  type varchar
-  events varchar
+  outs_when_up int
+  inning int
+  inning_topbot varchar
   launch_speed float
   launch_angle float
+  at_bat_number int
+  pitch_number int
+  pitch_name varchar
+  home_score int
+  away_score int
+  game_pk int
+  release_spin_rate float
+  release_extension float
+  effective_speed float
   hit_distance_sc float
-  game_key int [ref: > star.game_key]
-  pitcher_key int [ref: > player.player_key]
-  batter_key int [ref: > player.player_key]
-  count_key int [ref: > pitch_count.count_key]
+  game_key int [ref: > dim_game.game_key]
+  player_id int [ref: > dim_player.player_id]
+  player_id_batter_fk int [ref: > dim_player.player_id]
+  count_key int [ref: > dim_count.count_key]
 }

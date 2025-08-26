@@ -6,7 +6,7 @@
 PYTHON := python3
 VENV_PYTHON := ./venv/bin/python
 
-all: setup fetch build export
+all: fetch build export
 
 setup:
 	@echo "Setting up virtual environment and installing dependencies..."
@@ -45,4 +45,3 @@ clean:
 clean-all: clean
 	@echo "Cleaning up everything including virtual environment..."
 	rm -rf venv/
-	

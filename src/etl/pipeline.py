@@ -300,11 +300,18 @@ class MLBDataPipeline:
         # Get all players (not limited to 10)
         player_dim = self.get_player_data(all_player_ids)
 
+        # Create star schema with proper foreign keys
+        from etl.transforms.star_schema import create_star_schema
+
+        star_tables = create_star_schema(pitch_data, game_dim, player_dim, count_dim)
+
         # Save star schema data
         game_dim.to_csv(f"{self.data_dir}/processed/star/dim_game.csv", index=False)
         count_dim.to_csv(f"{self.data_dir}/processed/star/dim_count.csv", index=False)
         player_dim.to_csv(f"{self.data_dir}/processed/star/dim_player.csv", index=False)
-        pitch_data.to_csv(f"{self.data_dir}/processed/star/fact_pitch.csv", index=False)
+        star_tables["fact_pitch"].to_csv(
+            f"{self.data_dir}/processed/star/fact_pitch.csv", index=False
+        )
 
         # Also save as parquet
         game_dim.to_parquet(
@@ -316,7 +323,7 @@ class MLBDataPipeline:
         player_dim.to_parquet(
             f"{self.data_dir}/processed/star/dim_player.parquet", index=False
         )
-        pitch_data.to_parquet(
+        star_tables["fact_pitch"].to_parquet(
             f"{self.data_dir}/processed/star/fact_pitch.parquet", index=False
         )
 

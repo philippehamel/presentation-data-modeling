@@ -1,91 +1,120 @@
 from typing import List
 import pandas as pd
 
+
 def create_game_dimension(pitch_data: pd.DataFrame) -> pd.DataFrame:
     """
     Create game dimension table from pitch data.
-    
+
     Args:
         pitch_data: DataFrame with pitch-by-pitch data
-        
+
     Returns:
         DataFrame with game dimension data
     """
-    games = pitch_data.groupby(['game_pk', 'game_date', 'home_team', 'away_team']).agg({
-        'inning': 'max',
-        'pitch_number': 'count'
-    }).reset_index()
-    
-    games['game_key'] = range(1, len(games) + 1)
-    games['season'] = 2025
-    games['game_type'] = 'R'  # Regular season
-    games['day_of_week'] = pd.to_datetime(games['game_date']).dt.day_name()
-    games['stadium'] = games['home_team'].map({'TOR': 'Rogers Centre', 'COL': 'Coors Field'})
-    games['weather_temp'] = 72  # Default temperature
-    games['weather_condition'] = 'Clear'
-    games['total_pitches'] = games['pitch_number']
-    
-    return games[['game_key', 'game_pk', 'game_date', 'season', 'game_type', 
-                   'home_team', 'away_team', 'stadium', 'day_of_week', 
-                   'weather_temp', 'weather_condition', 'total_pitches']]
+    games = (
+        pitch_data.groupby(["game_pk", "game_date", "home_team", "away_team"])
+        .agg({"inning": "max", "pitch_number": "count"})
+        .reset_index()
+    )
+
+    games["game_key"] = range(1, len(games) + 1)
+    games["season"] = 2025
+    games["game_type"] = "R"  # Regular season
+    games["day_of_week"] = pd.to_datetime(games["game_date"]).dt.day_name()
+    games["stadium"] = games["home_team"].map(
+        {"TOR": "Rogers Centre", "COL": "Coors Field"}
+    )
+    games["weather_temp"] = 72  # Could call a weather api here
+    games["weather_condition"] = (
+        "Clear"  # But for example purposes, we'll use static values
+    )
+    games["total_pitches"] = games["pitch_number"]
+
+    return games[
+        [
+            "game_key",
+            "game_pk",
+            "game_date",
+            "season",
+            "game_type",
+            "home_team",
+            "away_team",
+            "stadium",
+            "day_of_week",
+            "weather_temp",
+            "weather_condition",
+            "total_pitches",
+        ]
+    ]
+
 
 def create_player_dimension(pitch_data: pd.DataFrame) -> pd.DataFrame:
     """
     Create player dimension table from pitch data.
-    
+
     Args:
         pitch_data: DataFrame with pitch-by-pitch data
-        
+
     Returns:
         DataFrame with player dimension data
     """
-    players = pitch_data[['pitcher', 'batter']].melt(value_vars=['pitcher', 'batter'], var_name='role', value_name='player_id')
+    players = pitch_data[["pitcher", "batter"]].melt(
+        value_vars=["pitcher", "batter"], var_name="role", value_name="player_id"
+    )
     players = players.dropna().drop_duplicates()
-    
+
     # Fetch player details from an external source or API
     # This is a placeholder for actual player data fetching logic
-    player_details = fetch_player_data(players['player_id'].unique())
-    
+    player_details = fetch_player_data(players["player_id"].unique().tolist())
+
     return player_details
+
 
 def create_count_dimension() -> pd.DataFrame:
     """
     Create count dimension table with all possible ball/strike combinations.
-    
+
     Returns:
         DataFrame with count dimension data
     """
     counts = []
     count_key = 1
-    
+
     for balls in range(4):
         for strikes in range(3):
-            counts.append({
-                'count_key': count_key,
-                'balls': balls,
-                'strikes': strikes,
-                'count_category': categorize_count(balls, strikes)
-            })
+            count_display = f"{balls}-{strikes}"
+            counts.append(
+                {
+                    "count_key": count_key,
+                    "balls": balls,
+                    "strikes": strikes,
+                    "count_display": count_display,
+                    "count_category": categorize_count(balls, strikes),
+                }
+            )
             count_key += 1
-            
+
     return pd.DataFrame(counts)
 
+
 def categorize_count(balls: int, strikes: int) -> str:
-    """Categorize count as Hitter, Pitcher, or Even."""
+    """Categorize count as Hitter's Count, Pitcher's Count, or Neutral Count."""
     if balls > strikes:
-        return 'Hitter'
+        return "Hitter's Count"
     elif strikes > balls:
-        return 'Pitcher'
+        return "Pitcher's Count"
     else:
-        return 'Even'
+        return "Neutral Count"
+
 
 def fetch_player_data(player_ids: List[int]) -> pd.DataFrame:
     """
     Fetch player dimension data from MLB API.
-    
+
     Args:
         player_ids: List of MLB player IDs
-        
+
     Returns:
         DataFrame with player information
     """

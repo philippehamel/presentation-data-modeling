@@ -54,13 +54,49 @@ def create_snowflake_schema(
     birth_location_dim = birth_location_dim.dropna().copy()
     birth_location_dim["location_key"] = range(1, len(birth_location_dim) + 1)
 
-    # Create count dimension
+    # Add foreign keys to player dimension - remove birth location details after creating FKs
+    player_dim = player_dim.merge(
+        position_dim[["primary_position", "position_key"]],
+        on="primary_position",
+        how="left",
+    )
+    player_dim = player_dim.merge(
+        birth_location_dim[["birth_city", "birth_country", "location_key"]],
+        on=["birth_city", "birth_country"],
+        how="left",
+    )
+
+    # For proper snowflake normalization, remove birth location details from player dimension
+    # Keep only the foreign key reference
+    player_dim = player_dim.drop(columns=["birth_city", "birth_country"])
+
+    # Create count dimension - using same structure as star schema for consistency
     count_dim = []
+    count_key = 1
+
     for balls in range(4):
         for strikes in range(3):
+            count_display = f"{balls}-{strikes}"
+
+            # Categorize count as in star schema
+            if balls > strikes:
+                count_category = "Hitter's Count"
+            elif strikes > balls:
+                count_category = "Pitcher's Count"
+            else:
+                count_category = "Neutral Count"
+
             count_dim.append(
-                {"balls": balls, "strikes": strikes, "count_key": len(count_dim) + 1}
+                {
+                    "count_key": count_key,
+                    "balls": balls,
+                    "strikes": strikes,
+                    "count_display": count_display,
+                    "count_category": count_category,
+                }
             )
+            count_key += 1
+
     count_dim = pd.DataFrame(count_dim)
 
     # Create fact table
