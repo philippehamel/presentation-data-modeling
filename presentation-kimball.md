@@ -235,5 +235,11 @@ Le gain de clarté de la modèlisation dimensonnielle, accélère le développem
 
 - Data warehouse toolkit de Ralph Kimball et ressource en ligne du Kimball Group
 - Joe Reiss Practical Data Modeling blog
-- Seattle Data Guy blog
+- Ben Rogojan Seattle Data Guy blog
 - Approche non dimensionelle (exemple Data Vault ou Anchor)
+
+---
+
+<div class="img">
+  <img src="assets/frame.png">
+</div>

@@ -38,7 +38,7 @@ L'approche de Kimball, formalisée en 1996, privilégie :
 
 ```bash
 # Cloner le projet
-git clone <repository-url>
+git clone https://github.com/philippehamel/presentation-kimball-data-modeling.git
 cd presentation-kimball-data-modeling
 
 # Configuration de l'environnement
@@ -241,26 +241,6 @@ LIMIT 10;
 - **Dimensional** : Optimisé pour OLAP, moins de jointures, dénormalisation contrôlée
 - **Performance** : L'approche dimensionnelle est 3-10x plus rapide pour l'analytique
 - **Maintenance** : JPA privilégie l'intégrité, dimensional privilégie la performance analytique
-
-## Export et formats de données
-
-Les données traitées sont exportées aux formats CSV et Parquet pour flexibilité de stockage et requêtage.
-
-
-## Intégration DuckDB
-
-### Commandes rapides
-
-```bash
-# Chargement complet avec Parquet (recommandé)
-make export
-
-# Comparaison performance CSV vs Parquet
-make compare
-
-# Accès direct à la base de données
-make query
-```
 
 ## Conclusion
 
