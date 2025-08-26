@@ -15,22 +15,16 @@ theme: dark-custom
 
 ---
 
-# Un peu d'histoire
+# Pourquoi?
 
-- ~1990 Bill Inmon formalise l'idée d'un entrepôt de donné moderne (Top Down)
-  - Objectif: être une source de vérité qui représente la structure et les processus de l'entreprise
-  - Séparation de l'opérationnel et de l'analytique
-  - Infrastructure optimisé pour des besoins analytique
-  - Utilisation de Data Mart normalisés
-  - Optimiser pour la réalité de l'époque, storage et calcul coûteux, lié et on-premise
-- 1996 Ralph Kimball formalise sa version d'un entrepôt de donné moderne (Bottom Up)
-  - Objectif: Bâtir sur la fondation de Inmon, mais prioriser la flexibilité et la simplicité
-  - Formalise une approche dimensionnelle qui demande plus de storage mais moins de calcul tout en conservant la qualité des donnés et la mémoire historique
-  - Hautement pratique avec la popularité des technologies infonuagique permettant d'accèder de manière flexible et abordable à de grande quantité de storage
+## Être capable de répondre a des questions analytique du genre :
+- Quelle est la moyenne de vente pour nos utilisateurs a Montréal?
+- Sur quelle catégorie de produits a eu la meilleure croissance pendant le dernier quart financier?
+- Quelles sont les joueurs née au USA qui ont frappé la balle avec le plus de vélocité pendant la derniére série de 3 match entre les Blue Jays et le Rockies?
 
 ---
 
-# Colonne (OLAP) VS Rangée (OLTP)
+# Rangée (OLTP) VS Colonne (OLAP)
 
 <div class="img">
   <img src="assets/row_vs_col.png">
@@ -40,28 +34,10 @@ theme: dark-custom
 
 # L'approche de Kimball
 
-## (Star Schema)
+## Deux composantes importantes :
+1. fact table (préfixe fct_)
+2. dimension table (préfixe dim_)
 
-<div class="txt_left">
-  <ul>
-    <li>Fact Tables (fct_table)
-      <ul>
-        <li>Granulaire</li>
-        <li>Longue</li>
-        <li>Mesurable (habituellement)</li>
-      </ul>
-    </li>
-  </ul>
-  <ul>
-    <li>Dimension Tables (dim_table)
-      <ul>
-        <li>Large</li>
-        <li>Slowly Changing Dimensions</li>
-        <li>Normalisation</li>
-      </ul>
-    </li>
-  </ul>
-</div>
 <div class="img">
   <img src="assets/basic_star.svg">
 </div>
@@ -82,23 +58,22 @@ theme: dark-custom
 
 - Choisir un processus d'affaire
 - Déclarer le grain : Niveau le plus bas de détails
-- Identifier les dimensions
-- Identifier les facts
+- Identifier les dimensions : Attributs descriptifs utilisés pour filtrer, grouper et étiqueter
+- Identifier les facts : Mesures quatitatives
 
 ---
 
 # Technique fact tables
 
-- Transactionnel
-- Accumulative
-- Snapshot
-- Factless
+- Transactionnel : chacun des lancers
+- Accumulative : présence au baton
+- Snapshot : positionnement dans le classement à chaque semaine
 
 ---
 
 # Technique dimension tables
 
-- Type de slowly changing dimensions
+- Slowly changing dimension sont des dimensions dont les attributs évoluent lentement au fil du temps
   - **Type 0** : Aucun changement
   - **Type 1** : Écrasement des valeurs
   - **Type 2** : Conservation de l'historique
@@ -202,24 +177,23 @@ LIMIT 10;</code></pre>
 
 # Conclusion
 
-Star Schema n'est qu'un outils de la modèlisation dimensionnelle.
 Avec l'approche dimensionnelle vous possèder plusieurs levier :
 
 - Granularité
 - Normalisation
-- SCD Types
+- SCD
 
 Pour optimiser les caractéristiques que vos requis demandent :
 
 - Simplicité
-- Historique
+- Fiabilité historique
 - Vélocité des requêtes
 - Vélocité de l'écriture
 - Storage
 
 ---
 
-# Mon avantage Favoris
+# Mon avantage favori
 
 ## Clarté
 

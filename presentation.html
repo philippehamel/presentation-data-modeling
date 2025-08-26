@@ -8,28 +8,16 @@
 </div>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="2" data-theme="dark-custom" lang="en-CA" style="--theme:dark-custom;">
-<h1 id="un-peu-dhistoire">Un peu d'histoire</h1>
+<h1 id="pourquoi">Pourquoi?</h1>
+<h2 id="%C3%AAtre-capable-de-r%C3%A9pondre-a-des-questions-analytique-du-genre">Être capable de répondre a des questions analytique du genre :</h2>
 <ul>
-<li>~1990 Bill Inmon formalise l'idée d'un entrepôt de donné moderne (Top Down)
-<ul>
-<li>Objectif: être une source de vérité qui représente la structure et les processus de l'entreprise</li>
-<li>Séparation de l'opérationnel et de l'analytique</li>
-<li>Infrastructure optimisé pour des besoins analytique</li>
-<li>Utilisation de Data Mart normalisés</li>
-<li>Optimiser pour la réalité de l'époque, storage et calcul coûteux, lié et on-premise</li>
-</ul>
-</li>
-<li>1996 Ralph Kimball formalise sa version d'un entrepôt de donné moderne (Bottom Up)
-<ul>
-<li>Objectif: Bâtir sur la fondation de Inmon, mais prioriser la flexibilité et la simplicité</li>
-<li>Formalise une approche dimensionnelle qui demande plus de storage mais moins de calcul tout en conservant la qualité des donnés et la mémoire historique</li>
-<li>Hautement pratique avec la popularité des technologies infonuagique permettant d'accèder de manière flexible et abordable à de grande quantité de storage</li>
-</ul>
-</li>
+<li>Quelle est la moyenne de vente pour nos utilisateurs a Montréal?</li>
+<li>Sur quelle catégorie de produits a eu la meilleure croissance pendant le dernier quart financier?</li>
+<li>Quelles sont les joueurs née au USA qui ont frappé la balle avec le plus de vélocité pendant la derniére série de 3 match entre les Blue Jays et le Rockies?</li>
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="3" data-theme="dark-custom" lang="en-CA" style="--theme:dark-custom;">
-<h1 id="colonne-olap-vs-rang%C3%A9e-oltp">Colonne (OLAP) VS Rangée (OLTP)</h1>
+<h1 id="rang%C3%A9e-oltp-vs-colonne-olap">Rangée (OLTP) VS Colonne (OLAP)</h1>
 <div class="img">
   <img src="assets/row_vs_col.png" />
 </div>
@@ -73,23 +61,22 @@
 <ul>
 <li>Choisir un processus d'affaire</li>
 <li>Déclarer le grain : Niveau le plus bas de détails</li>
-<li>Identifier les dimensions</li>
-<li>Identifier les facts</li>
+<li>Identifier les dimensions : Attributs descriptifs utilisés pour filtrer, grouper et étiqueter</li>
+<li>Identifier les facts : Mesures quatitatives</li>
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="7" data-theme="dark-custom" lang="en-CA" style="--theme:dark-custom;">
 <h1 id="technique-fact-tables">Technique fact tables</h1>
 <ul>
-<li>Transactionnel</li>
-<li>Accumulative</li>
-<li>Snapshot</li>
-<li>Factless</li>
+<li>Transactionnel : chacun des lancers</li>
+<li>Accumulative : présence au baton</li>
+<li>Snapshot : déplacement dans le classement à chaque semaine</li>
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="8" data-theme="dark-custom" lang="en-CA" style="--theme:dark-custom;">
 <h1 id="technique-dimension-tables">Technique dimension tables</h1>
 <ul>
-<li>Type de slowly changing dimensions
+<li>Slowly changing dimension sont des dimensions dont les attributs évoluent lentement au fil du temps
 <ul>
 <li><strong>Type 0</strong> : Aucun changement</li>
 <li><strong>Type 1</strong> : Écrasement des valeurs</li>
@@ -211,24 +198,23 @@ LIMIT 10;</code></pre>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="12" data-theme="dark-custom" lang="en-CA" style="--theme:dark-custom;">
 <h1 id="conclusion">Conclusion</h1>
-<p>Star Schema n'est qu'un outils de la modèlisation dimensionnelle.<br />
-Avec l'approche dimensionnelle vous possèder plusieurs levier :</p>
+<p>Avec l'approche dimensionnelle vous possèder plusieurs levier :</p>
 <ul>
 <li>Granularité</li>
 <li>Normalisation</li>
-<li>SCD Types</li>
+<li>SCD</li>
 </ul>
 <p>Pour optimiser les caractéristiques que vos requis demandent :</p>
 <ul>
 <li>Simplicité</li>
-<li>Historique</li>
+<li>Fiabilité historique</li>
 <li>Vélocité des requêtes</li>
 <li>Vélocité de l'écriture</li>
 <li>Storage</li>
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="13" data-theme="dark-custom" lang="en-CA" style="--theme:dark-custom;">
-<h1 id="mon-avantage-favoris">Mon avantage Favoris</h1>
+<h1 id="mon-avantage-favori">Mon avantage favori</h1>
 <h2 id="clart%C3%A9">Clarté</h2>
 <p>Le gain de clarté de la modèlisation dimensonnielle, accélère le développement, facilite la maintenance et promeut la fiabilité.</p>
 </section>
@@ -240,7 +226,7 @@ Avec l'approche dimensionnelle vous possèder plusieurs levier :</p>
 <ul>
 <li>Data warehouse toolkit de Ralph Kimball et ressource en ligne du Kimball Group</li>
 <li>Joe Reiss Practical Data Modeling blog</li>
-<li>Seattle Data Guy blog</li>
+<li>Ben Rogojan Seattle Data Guy blog</li>
 <li>Approche non dimensionelle (exemple Data Vault ou Anchor)</li>
 </ul>
 </section>
