@@ -1,0 +1,23 @@
+table one_big_table {
+  pitch_number integer [pk]
+  game_key integer
+  pitcher_key integer
+  batter_key integer
+  count_key integer
+  inning integer
+  inning_topbot varchar
+  outs_when_up integer
+  pitch_type varchar
+  release_speed float
+  release_spin_rate float
+  pfx_x float
+  pfx_z float
+  plate_x float
+  plate_z float
+  zone integer
+  type varchar
+  events varchar
+  launch_speed float
+  launch_angle float
+  hit_distance_sc float
+}

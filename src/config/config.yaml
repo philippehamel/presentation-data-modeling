@@ -1,0 +1,19 @@
+api:
+  baseball_savant_url: "https://baseballsavant.mlb.com/statcast_search/csv"
+  mlb_api_base_url: "https://statsapi.mlb.com/api/v1"
+
+data:
+  start_date: "2025-08-04"
+  end_date: "2025-08-06"
+  teams:
+    - "TOR"
+    - "COL"
+
+output:
+  data_directory: "data/processed"
+  formats:
+    - "csv"
+    - "parquet"
+
+duckdb:
+  database_path: "db/duckdb/mlb_data.duckdb"

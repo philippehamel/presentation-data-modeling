@@ -1,5 +1,297 @@
+# MLB Dimensional Modeling Project - .gitignore
 
-.DS_Store
+# ==============================================
+# Python
+# ==============================================
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
 
-exploration.ipynb
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# celery beat schedule file
+celerybeat-schedule
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
 .venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+path/to/venv/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# ==============================================
+# Data Files (Keep some, ignore others)
+# ==============================================
+
+# Raw data downloads (can be regenerated)
+data/raw/statcast/*.csv
+data/raw/mlb/*.json
+data/raw/mlb/*.csv
+
+# Keep processed data structure but ignore large files
+data/processed/*/*.csv
+data/processed/*/*.parquet
+
+# Keep the .gitkeep files to maintain directory structure
+!data/processed/*/.gitkeep
+!data/raw/*/.gitkeep
+
+# ==============================================
+# Database Files
+# ==============================================
+
+# DuckDB database files (can be regenerated)
+db/duckdb/*.duckdb
+db/duckdb/*.db
+
+# Database schema files (generated)
+db/duckdb/schema/*.sql
+
+# Keep directory structure
+!db/duckdb/.gitkeep
+!db/duckdb/schema/.gitkeep
+
+# ==============================================
+# IDE and Editor Files
+# ==============================================
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# ==============================================
+# Operating System Files
+# ==============================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.tmp
+*.temp
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ==============================================
+# Logs and Temporary Files
+# ==============================================
+
+# Application logs
+*.log
+logs/
+*.out
+
+# Temporary files
+tmp/
+temp/
+.tmp/
+
+# ==============================================
+# Configuration and Secrets
+# ==============================================
+
+# Environment variables and secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# API keys and credentials
+secrets.yaml
+config/secrets.yaml
+credentials.json
+*.key
+*.pem
+
+# ==============================================
+# Project Specific
+# ==============================================
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Archive files
+*.zip
+*.tar.gz
+*.rar
+
+# Documentation builds
+docs/build/
+docs/_build/
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# ==============================================
+# Keep Important Files
+# ==============================================
+
+# Always keep these important files
+!requirements.txt
+!Makefile
+!README.md
+!.gitignore
+!src/
+!scripts/
+!*.py
+!*.sql
+!*.yaml
+!*.yml
+!*.md
+!*.dbml

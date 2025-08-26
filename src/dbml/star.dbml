@@ -1,0 +1,65 @@
+table star {
+  game_key int [pk, increment]
+  game_pk int
+  game_date date
+  season int
+  game_type varchar
+  home_team_key int
+  away_team_key int
+  stadium_key int
+  day_of_week varchar
+  total_pitches int
+}
+
+table player {
+  player_key int [pk, increment]
+  mlb_id int
+  full_name varchar
+  first_name varchar
+  last_name varchar
+  birth_date date
+  birth_city varchar
+  birth_country varchar
+  height varchar
+  weight int
+  bats varchar
+  throws varchar
+  position varchar
+  mlb_debut_date date
+  current_team_id int
+  active_status boolean
+  effective_date date
+  expiration_date date
+  is_current boolean
+}
+
+table pitch_count {
+  count_key int [pk, increment]
+  balls int
+  strikes int
+  count_category varchar
+}
+
+table fact_pitches {
+  pitch_number int
+  inning int
+  inning_topbot varchar
+  outs_when_up int
+  pitch_type varchar
+  release_speed float
+  release_spin_rate float
+  pfx_x float
+  pfx_z float
+  plate_x float
+  plate_z float
+  zone int
+  type varchar
+  events varchar
+  launch_speed float
+  launch_angle float
+  hit_distance_sc float
+  game_key int [ref: > star.game_key]
+  pitcher_key int [ref: > player.player_key]
+  batter_key int [ref: > player.player_key]
+  count_key int [ref: > pitch_count.count_key]
+}

@@ -1,0 +1,64 @@
+table snowflake {
+  game_key integer [pk, increment]
+  game_pk integer
+  game_date date
+  season integer
+  game_type varchar
+  home_team_key integer
+  away_team_key integer
+  stadium_key integer
+  day_of_week varchar
+  total_pitches integer
+}
+
+table player {
+  player_key integer [pk, increment]
+  mlb_id integer
+  full_name varchar
+  first_name varchar
+  last_name varchar
+  birth_date date
+  birth_city varchar
+  birth_country varchar
+  height varchar
+  weight integer
+  bats varchar
+  throws varchar
+  position_key integer
+  mlb_debut_date date
+  current_team_id integer
+  active_status boolean
+  effective_date date
+  expiration_date date
+  is_current boolean
+}
+
+table count {
+  count_key integer [pk, increment]
+  balls integer
+  strikes integer
+}
+
+table pitch {
+  pitch_number integer
+  inning integer
+  inning_topbot varchar
+  outs_when_up integer
+  pitch_type varchar
+  release_speed float
+  release_spin_rate float
+  pfx_x float
+  pfx_z float
+  plate_x float
+  plate_z float
+  zone integer
+  type varchar
+  events varchar
+  launch_speed float
+  launch_angle float
+  hit_distance_sc float
+  game_key integer [ref: > game.game_key]
+  pitcher_key integer [ref: > player.player_key]
+  batter_key integer [ref: > player.player_key]
+  count_key integer [ref: > count.count_key]
+}
