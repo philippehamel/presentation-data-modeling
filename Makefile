@@ -40,7 +40,11 @@ compare:
 
 clean:
 	@echo "Cleaning up generated files..."
+	@echo "Checking for running DuckDB processes..."
+	-@pkill -f "duckdb.*mlb_data.duckdb" 2>/dev/null || true
+	@sleep 1
 	rm -rf data/processed/* db/duckdb/schema/* data/raw/statcast/* data/raw/mlb/*
+	-@rm -f db/duckdb/mlb_data.duckdb 2>/dev/null || echo "Note: If database removal failed, please close any open DuckDB sessions first"
 
 clean-all: clean
 	@echo "Cleaning up everything including virtual environment..."
