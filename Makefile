@@ -6,7 +6,7 @@
 PYTHON := python3
 VENV_PYTHON := ./venv/bin/python
 
-all: fetch build export
+all: setup fetch build export
 
 setup:
 	@echo "Setting up virtual environment and installing dependencies..."
@@ -45,8 +45,4 @@ clean:
 clean-all: clean
 	@echo "Cleaning up everything including virtual environment..."
 	rm -rf venv/
-
-# Helper target to run with activated venv
-run-with-venv:
-	@echo "Running pipeline with virtual environment..."
-	$(VENV_PYTHON) src/main.py
+	
