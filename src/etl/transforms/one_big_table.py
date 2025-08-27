@@ -32,7 +32,7 @@ def create_one_big_table(
     )
 
     # Add pitcher information
-    pitcher_info = player_dim[player_dim["is_current"] == True].copy()
+    pitcher_info = player_dim.copy()
     pitcher_cols = [
         "player_id",
         "full_name",
@@ -60,7 +60,7 @@ def create_one_big_table(
     )
 
     # Add batter information
-    batter_info = player_dim[player_dim["is_current"] == True].copy()
+    batter_info = player_dim.copy()
     batter_rename = {col: f"batter_{col}" for col in pitcher_cols if col != "player_id"}
     batter_rename["player_id"] = "batter"
 

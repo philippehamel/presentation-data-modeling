@@ -5,16 +5,16 @@ import pandas as pd
 import numpy as np
 import requests
 import logging
-from typing import Dict, List
+from typing import List
 from io import StringIO
 from pathlib import Path
+from etl.players_client import PlayersClient
+from etl.transforms.star_schema import create_star_schema
 
-# Add parent directory to path for imports
 current_dir = Path(__file__).parent
 parent_dir = current_dir.parent
 sys.path.insert(0, str(parent_dir))
 
-# Configure logging
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
@@ -26,15 +26,8 @@ class MLBDataPipeline:
         self.data_dir = data_dir
         self.create_directories()
 
-        # MLB API base URLs
         self.mlb_api_base = "https://statsapi.mlb.com/api/v1"
         self.savant_base = "https://baseballsavant.mlb.com/statcast_search/csv"
-
-        # Team mappings
-        self.team_mapping = {
-            "TOR": {"id": 142, "name": "Toronto Blue Jays"},
-            "COL": {"id": 115, "name": "Colorado Rockies"},
-        }
 
     def create_directories(self):
         """Create necessary directories for data storage."""
@@ -102,7 +95,6 @@ class MLBDataPipeline:
             response = requests.get(self.savant_base, params=params, timeout=30)
             response.raise_for_status()
 
-            # Use StringIO from io module instead of pandas.compat
             df = pd.read_csv(StringIO(response.text))
 
             # Save raw data
@@ -114,40 +106,7 @@ class MLBDataPipeline:
 
         except Exception as e:
             logger.error(f"Error downloading Statcast data: {e}")
-            # Return sample data if API fails
-            return self.create_sample_data()
-
-    def create_sample_data(self) -> pd.DataFrame:
-        """Create sample pitch data for demonstration."""
-        logger.info("Creating sample pitch data for demonstration")
-        np.random.seed(42)
-
-        sample_data = []
-        game_pks = [776854, 776855, 776856]  # Sample game IDs
-        dates = ["2025-08-04", "2025-08-05", "2025-08-06"]
-
-        for i, (game_pk, date) in enumerate(zip(game_pks, dates)):
-            for pitch_num in range(1, 101):  # 100 pitches per game
-                sample_data.append(
-                    {
-                        "game_pk": game_pk,
-                        "game_date": date,
-                        "home_team": "COL" if i % 2 == 0 else "TOR",
-                        "away_team": "TOR" if i % 2 == 0 else "COL",
-                        "inning": np.random.randint(1, 10),
-                        "pitcher": np.random.randint(400000, 700000),
-                        "batter": np.random.randint(400000, 700000),
-                        "balls": np.random.randint(0, 4),
-                        "strikes": np.random.randint(0, 3),
-                        "pitch_type": np.random.choice(["FF", "SL", "CH", "CU", "SI"]),
-                        "release_speed": np.random.normal(92, 5),
-                        "description": np.random.choice(
-                            ["ball", "called_strike", "swinging_strike", "foul"]
-                        ),
-                    }
-                )
-
-        return pd.DataFrame(sample_data)
+            return pd.DataFrame()  # Return empty DataFrame on error
 
     def get_player_data(self, player_ids: List[int]) -> pd.DataFrame:
         """
@@ -159,9 +118,6 @@ class MLBDataPipeline:
         Returns:
             DataFrame with player information
         """
-        # Import here to avoid circular imports
-        from etl.players_client import PlayersClient
-
         client = PlayersClient()
         return client.fetch_player_data(player_ids)
 

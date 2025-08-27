@@ -6,7 +6,7 @@
 PYTHON := python3
 VENV_PYTHON := ./venv/bin/python
 
-all: fetch build export
+all: build export
 
 setup:
 	@echo "Setting up virtual environment and installing dependencies..."
@@ -14,13 +14,9 @@ setup:
 	$(VENV_PYTHON) -m pip install --upgrade pip
 	$(VENV_PYTHON) -m pip install -r requirements.txt
 
-fetch:
+build:
 	@echo "Fetching data from Baseball Savant and MLB API..."
 	./scripts/fetch_and_build.sh
-
-build:
-	@echo "Building dimensional models..."
-	$(VENV_PYTHON) src/main.py
 
 export:
 	@echo "Exporting data to DuckDB..."

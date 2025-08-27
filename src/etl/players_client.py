@@ -16,7 +16,6 @@ class PlayersClient:
         self.api_base = api_base
         self.save_raw = save_raw
 
-        # Create raw data directory if saving raw data
         if self.save_raw:
             os.makedirs("data/raw/mlb", exist_ok=True)
 
@@ -91,10 +90,5 @@ class PlayersClient:
             "primary_position": player_data.get("primaryPosition", {}).get("name"),
             "bat_side": player_data.get("batSide", {}).get("description"),
             "pitch_hand": player_data.get("pitchHand", {}).get("description"),
-            "mlb_debut_date": player_data.get("mlbDebutDate"),
-            "current_team_id": player_data.get("currentTeam", {}).get("id"),
-            "current_team_name": player_data.get("currentTeam", {}).get("name"),
-            "effective_date": datetime.now().isoformat(),
-            "expiration_date": None,
-            "is_current": True,
+            "mlb_debut_date": player_data.get("mlbDebutDate")
         }

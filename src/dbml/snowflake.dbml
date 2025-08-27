@@ -1,5 +1,5 @@
 table dim_game {
-  game_key int [pk, increment]
+  game_key int [pk]
   game_pk int
   game_date date
   season int
@@ -18,25 +18,24 @@ table dim_player {
   full_name varchar
   first_name varchar
   last_name varchar
-  primary_position varchar
   player_key int
   position_key int [ref: > dim_position.position_key]
   location_key int [ref: > dim_birth_location.location_key]
 }
 
 table dim_position {
-  position_key int [pk, increment]
+  position_key int [pk]
   primary_position varchar
 }
 
 table dim_birth_location {
-  location_key int [pk, increment]
+  location_key int [pk]
   birth_city varchar
   birth_country varchar
 }
 
 table dim_count {
-  count_key int [pk, increment]
+  count_key int [pk]
   balls int
   strikes int
   count_display varchar
@@ -54,6 +53,10 @@ table fact_pitches {
   pitcher int
   events varchar
   description varchar
+  spin_dir float
+  spin_rate_deprecated float
+  break_angle_deprecated float
+  break_length_deprecated float
   zone int
   des varchar
   game_type varchar
@@ -71,21 +74,93 @@ table fact_pitches {
   pfx_z float
   plate_x float
   plate_z float
+  on_3b int
+  on_2b int
+  on_1b int
   outs_when_up int
   inning int
   inning_topbot varchar
+  hc_x float
+  hc_y float
+  tfs_deprecated varchar
+  tfs_zulu_deprecated varchar
+  umpire varchar
+  sv_id varchar
+  vx0 float
+  vy0 float
+  vz0 float
+  ax float
+  ay float
+  az float
+  sz_top float
+  sz_bot float
+  hit_distance_sc float
   launch_speed float
   launch_angle float
+  effective_speed float
+  release_spin_rate float
+  release_extension float
+  game_pk int
+  fielder_2 int
+  fielder_3 int
+  fielder_4 int
+  fielder_5 int
+  fielder_6 int
+  fielder_7 int
+  fielder_8 int
+  fielder_9 int
+  release_pos_y float
+  estimated_ba_using_speedangle float
+  estimated_woba_using_speedangle float
+  woba_value float
+  woba_denom float
+  babip_value float
+  iso_value float
+  launch_speed_angle int
   at_bat_number int
   pitch_number int
   pitch_name varchar
   home_score int
   away_score int
-  game_pk int
-  release_spin_rate float
-  release_extension float
-  effective_speed float
-  hit_distance_sc float
+  bat_score int
+  fld_score int
+  post_away_score int
+  post_home_score int
+  post_bat_score int
+  post_fld_score int
+  if_fielding_alignment varchar
+  of_fielding_alignment varchar
+  spin_axis float
+  delta_home_win_exp float
+  delta_run_exp float
+  bat_speed float
+  swing_length float
+  estimated_slg_using_speedangle float
+  delta_pitcher_run_exp float
+  hyper_speed float
+  home_score_diff int
+  bat_score_diff int
+  home_win_exp float
+  bat_win_exp float
+  age_pit_legacy float
+  age_bat_legacy float
+  age_pit float
+  age_bat float
+  n_thruorder_pitcher int
+  n_priorpa_thisgame_player_at_bat int
+  pitcher_days_since_prev_game int
+  batter_days_since_prev_game int
+  pitcher_days_until_next_game int
+  batter_days_until_next_game int
+  api_break_z_with_gravity float
+  api_break_x_arm float
+  api_break_x_batter_in float
+  arm_angle float
+  attack_angle float
+  attack_direction float
+  swing_path_tilt float
+  intercept_ball_minus_batter_pos_x_inches float
+  intercept_ball_minus_batter_pos_y_inches float
   game_key int [ref: > dim_game.game_key]
   player_id_pitcher int [ref: > dim_player.player_id]
   player_key_pitcher int

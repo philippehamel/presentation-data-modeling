@@ -66,6 +66,8 @@ make query
 
 ### 1. Star Schema (Schéma en étoile)
 
+![Star Schema](assets/readme-star.svg)
+
 **Structure :**
 
 - **fact_pitches** : Table de faits centrale avec métriques de performance
@@ -93,6 +95,8 @@ make query
 - Environnements où la performance de lecture prime
 
 ### 2. Snowflake Schema (Schéma flocon)
+
+![Snowflake Schema](assets/readme-snowflake.svg)
 
 **Structure :**
 
@@ -122,6 +126,8 @@ make query
 - Applications avec mises à jour fréquentes des données de référence
 
 ### 3. One Big Table (Table unique dénormalisée)
+
+![One Big Table](assets/readme-obt.svg)
 
 **Structure :**
 
