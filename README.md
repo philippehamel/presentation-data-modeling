@@ -70,7 +70,7 @@ make query
 
 **Structure :**
 
-- **fact_pitches** : Table de faits centrale avec métriques de performance
+- **fact_pitch** : Table de faits centrale avec métriques de performance
 - **dim_player** : Dimension joueur (batteur/lanceur) avec informations complètes
 - **dim_game** : Dimension partie avec date, équipes, stade, météo
 - **dim_count** : Dimension compte (balles/prises)
@@ -100,7 +100,7 @@ make query
 
 **Structure :**
 
-- **fact_pitches** : Table de faits identique au star schema
+- **fact_pitch** : Table de faits identique au star schema
 - **dim_player** : Dimension joueur normalisée
 - **dim_position** : Table séparée pour les positions
 - **dim_birth_location** : Table séparée pour les lieux de naissance
@@ -186,7 +186,7 @@ SELECT
     bl.birth_country,
     ROUND(AVG(f.launch_speed), 2) as avg_exit_velocity,
     COUNT(*) as total_batted_balls
-FROM snowflake_fact_pitches f
+FROM snowflake_fact_pitch f
 JOIN snowflake_dim_player p ON f.player_key_batter = p.player_key
 JOIN snowflake_dim_birth_location bl ON p.location_key = bl.location_key
 WHERE bl.birth_country = 'USA'
@@ -273,9 +273,10 @@ Le gain de clarté de la modélisation dimensionnelle accélère le développeme
 - **Ressources Kimball Group** [link](https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/)
 - **Le rôle de développeur analytique** de dbt [link](https://www.getdbt.com/blog/what-is-analytics-engineering)
 - **Practical Data Modeling blog** de Joe Reiss [link](https://practicaldatamodeling.substack.com/)
-- **Approches alternatives** : [Data Vault](https://en.wikipedia.org/wiki/Data_vault_modeling), [Anchor Modeling](https://en.wikipedia.org/wiki/Anchor_modeling)
+- **Seattle Data Guy blog** de Ben Rogojan [link](https://www.theseattledataguy.com/data-science-consulting-blog/)
+- **Approches non dimensionnelles** : [Data Vault](https://en.wikipedia.org/wiki/Data_vault_modeling), [Anchor Modeling](https://en.wikipedia.org/wiki/Anchor_modeling)
 
-# Stretch Goal : Serialization
+# Bonus : Serialization
 
 ## Performance : CSV vs. Parquet avec DuckDB
 

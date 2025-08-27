@@ -42,7 +42,7 @@ table dim_count {
   count_category varchar
 }
 
-table fact_pitches {
+table fact_pitch {
   pitch_type varchar
   game_date date
   release_speed float

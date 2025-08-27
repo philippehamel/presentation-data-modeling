@@ -39,7 +39,7 @@ CREATE OR REPLACE TABLE snowflake_dim_player AS SELECT * FROM read_parquet('data
 CREATE OR REPLACE TABLE snowflake_dim_position AS SELECT * FROM read_parquet('data/processed/snowflake/dim_position.parquet');
 CREATE OR REPLACE TABLE snowflake_dim_birth_location AS SELECT * FROM read_parquet('data/processed/snowflake/dim_birth_location.parquet');
 CREATE OR REPLACE TABLE snowflake_dim_count AS SELECT * FROM read_parquet('data/processed/snowflake/dim_count.parquet');
-CREATE OR REPLACE TABLE snowflake_fact_pitches AS SELECT * FROM read_parquet('data/processed/snowflake/fact_pitches.parquet');
+CREATE OR REPLACE TABLE snowflake_fact_pitch AS SELECT * FROM read_parquet('data/processed/snowflake/fact_pitch.parquet');
 
 -- ======================
 -- ONE BIG TABLE (PARQUET)
@@ -68,7 +68,7 @@ SELECT 'SNOWFLAKE SCHEMA', 'snowflake_dim_birth_location', COUNT(*) FROM snowfla
 UNION ALL
 SELECT 'SNOWFLAKE SCHEMA', 'snowflake_dim_count', COUNT(*) FROM snowflake_dim_count
 UNION ALL
-SELECT 'SNOWFLAKE SCHEMA', 'snowflake_fact_pitches', COUNT(*) FROM snowflake_fact_pitches
+SELECT 'SNOWFLAKE SCHEMA', 'snowflake_fact_pitch', COUNT(*) FROM snowflake_fact_pitch
 UNION ALL
 SELECT 'ONE BIG TABLE', 'one_big_table', COUNT(*) FROM one_big_table
 ORDER BY schema_type, table_name;
@@ -83,7 +83,7 @@ echo "Database location: db/duckdb/mlb_data.duckdb"
 echo ""
 echo "Available tables:"
 echo "- Star Schema: star_fact_pitch, star_dim_game, star_dim_player, star_dim_count"
-echo "- Snowflake Schema: snowflake_fact_pitches, snowflake_dim_game, snowflake_dim_player, snowflake_dim_position, snowflake_dim_birth_location, snowflake_dim_count"
+echo "- Snowflake Schema: snowflake_fact_pitch, snowflake_dim_game, snowflake_dim_player, snowflake_dim_position, snowflake_dim_birth_location, snowflake_dim_count"
 echo "- One Big Table: one_big_table"
 echo ""
 echo "To query the data:"

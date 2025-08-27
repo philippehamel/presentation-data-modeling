@@ -58,14 +58,5 @@ echo ""
 echo "Parquet query timing:"
 time duckdb "$DUCKDB_DB_PATH" -c "SELECT pitch_type, COUNT(*) FROM parquet_fact_pitch GROUP BY pitch_type ORDER BY COUNT(*) DESC;"
 
-echo ""
-echo "=============================================="
-echo "Summary:"
-echo "- Parquet files are typically 60-80% smaller"
-echo "- Parquet loading is usually 2-5x faster"
-echo "- Parquet queries are often 3-10x faster"
-echo "- DuckDB has native Parquet support"
-echo "=============================================="
-
 # Clean up
 rm -f "$DUCKDB_DB_PATH"

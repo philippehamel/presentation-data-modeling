@@ -120,10 +120,10 @@ def create_snowflake_schema(
     )
 
     return {
-        "dim_game": game_dim,
-        "dim_player": player_dim,
-        "dim_position": position_dim,
-        "dim_birth_location": birth_location_dim,
-        "dim_count": count_dim,
-        "fact_pitches": fact,
+        "dim_game": pd.DataFrame(game_dim),
+        "dim_player": pd.DataFrame(player_dim),
+        "dim_position": pd.DataFrame(position_dim),
+        "dim_birth_location": pd.DataFrame(birth_location_dim),
+        "dim_count": pd.DataFrame(count_dim),
+        "fact_pitch": pd.DataFrame(fact),
     }

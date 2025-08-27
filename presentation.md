@@ -143,7 +143,7 @@ ORDER BY avg_exit_velocity DESC LIMIT 10;</code></pre>
     <h3>Snowflake Schema</h3>
     <pre><code>SELECT p.full_name, bl.birth_country,
   ROUND(AVG(f.launch_speed), 2) as avg_exit_velocity
-FROM snowflake_fact_pitches f
+FROM snowflake_fact_pitch f
 JOIN snowflake_dim_player p 
   ON f.player_key_batter = p.player_key
 JOIN snowflake_dim_birth_location bl 
