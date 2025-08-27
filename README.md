@@ -25,8 +25,8 @@ Ce projet démontre l'extraction, transformation et chargement (ETL) de données
 
 ```bash
 # Cloner le projet
-git clone https://github.com/philippehamel/presentation-kimball-data-modeling.git
-cd presentation-kimball-data-modeling
+git clone https://github.com/philippehamel/presentation-dimensional-data-modeling.git
+cd presentation-dimensional-data-modeling
 
 # Configuration de l'environnement
 make setup
