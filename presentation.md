@@ -18,16 +18,17 @@ theme: dark-custom
 # Pourquoi?
 
 ## Être capable de répondre a des questions analytique du genre :
+
 - Quelle est la moyenne de vente pour nos utilisateurs a Montréal?
-- Sur quelle catégorie de produits a eu la meilleure croissance pendant le dernier quart financier?
-- Quelles sont les joueurs née au USA qui ont frappé la balle avec le plus de vélocité pendant la derniére série de 3 match entre les Blue Jays et le Rockies?
+- Sur quelle catégorie de produits a eu la meilleure croissance de revenue pendant le dernier quart financier?
+- Quelles sont les joueurs née au USA qui ont frappé la balle avec le plus de vélocité pendant la dernière série de 3 matchs entre les Blue Jays et les Rockies?
 
 ---
 
 # Rangée (OLTP) VS Colonne (OLAP)
 
 <div class="img">
-  <img src="assets/row_vs_col.png">
+  <img src="assets/row-vs-col.png">
 </div>
 
 ---
@@ -35,11 +36,12 @@ theme: dark-custom
 # L'approche de Kimball
 
 ## Deux composantes importantes :
-1. fact table (préfixe fct_)
-2. dimension table (préfixe dim_)
+
+1. fact table (préfixe fct\_)
+2. dimension table (préfixe dim\_)
 
 <div class="img">
-  <img src="assets/basic_star.svg">
+  <img src="assets/basic-star.svg">
 </div>
 
 ---
@@ -49,25 +51,25 @@ theme: dark-custom
 ## Nous allons modéliser une saison de baseball
 
 <div class="gif-container">
-  <img src="assets/clap.gif">
+  <img src="assets/shrug.gif">
 </div>
 
 ---
 
 # Méthode standard
 
-- Choisir un processus d'affaire
-- Déclarer le grain : Niveau le plus bas de détails
-- Identifier les dimensions : Attributs descriptifs utilisés pour filtrer, grouper et étiqueter
-- Identifier les facts : Mesures quatitatives
+- Choisir un processus d'affaire: Performance des joueurs
+- Déclarer le grain: Niveau le plus bas de détails
+- Identifier les dimensions: Attributs descriptifs utilisés pour filtrer, grouper et étiqueter
+- Identifier les facts: Mesures quatitatives
 
 ---
 
 # Technique fact tables
 
-- Transactionnel : chacun des lancers
-- Accumulative : présence au baton
-- Snapshot : positionnement dans le classement à chaque semaine
+- Transactionnel: chacun des lancers
+- Accumulative: présence au bâton ou match
+- Snapshot: positionnement dans le classement à chaque semaine
 
 ---
 
@@ -81,11 +83,16 @@ theme: dark-custom
 <div class="scd-example">
 
 **Exemple SCD Type 2 - Transfert de joueur :**
+| Joueur       | ID     | Équipe  | Date début | Date fin   | Actif |
+| ------------ | ------ | ------- | ---------- | ---------- | ----- |
+| Danny Jansen | 643376 | **TOR** | 2018-08-15 | 2100-01-01 | true|
+
+devient:
 
 | Joueur       | ID     | Équipe  | Date début | Date fin   | Actif |
 | ------------ | ------ | ------- | ---------- | ---------- | ----- |
-| Danny Jansen | 643376 | **BOS** | 2013-06-08 | 2024-07-27 | false |
-| Danny Jansen | 643376 | **TOR** | 2024-07-27 | 2100-01-01 | true  |
+| Danny Jansen | 643376 | **TOR** | 2018-08-15 | 2024-07-27 | false |
+| Danny Jansen | 643376 | **BOS** | 2024-07-27 | 2100-01-01 | true  |
 
 </div>
 
@@ -101,14 +108,14 @@ theme: dark-custom
 <div class="comparison-container">
   <div class="comparison-item">
     <h3>Star Schema</h3>
-    <img src="assets/mlb_star.svg" alt="MLB Star Schema">
-    <p>Moins de jointures, performance optimale</p>
+    <img src="assets/mlb-star.svg" alt="MLB Star Schema">
+    <p>Moins de jointures, meilleure vélocité des requêtes</p>
   </div>
   
   <div class="comparison-item">
     <h3>Snowflake Schema</h3>
-    <img src="assets/mlb_snowflake.svg" alt="MLB Snowflake Schema">
-    <p>Plus de jointures, intégrité renforcée</p>
+    <img src="assets/mlb-snowflake.svg" alt="MLB Snowflake Schema">
+    <p>Plus de jointures, meilleure performance de stockage</p>
   </div>
 </div>
 
@@ -185,11 +192,11 @@ Avec l'approche dimensionnelle vous possèder plusieurs levier :
 
 Pour optimiser les caractéristiques que vos requis demandent :
 
-- Simplicité
+- Clarté pour les utilisateurs
 - Fiabilité historique
 - Vélocité des requêtes
 - Vélocité de l'écriture
-- Storage
+- Minimiser le stockage
 
 ---
 
@@ -199,18 +206,21 @@ Pour optimiser les caractéristiques que vos requis demandent :
 
 Le gain de clarté de la modèlisation dimensonnielle, accélère le développement, facilite la maintenance et promeut la fiabilité.
 
+<div class="img">
+  <img src="assets/dying-hill.jpg">
+</div>
+
 ---
 
 # Wow Phil c'était tellement intéressant, mais où en apprendre plus?
-
-<div class="gif-container">
-  <img src="assets/tell-us-more.gif">
-</div>
-
 - Data warehouse toolkit de Ralph Kimball et ressource en ligne du Kimball Group
 - Joe Reiss Practical Data Modeling blog
 - Ben Rogojan Seattle Data Guy blog
 - Approche non dimensionelle (exemple Data Vault ou Anchor)
+
+<div class="gif-container">
+  <img src="assets/tell-us-more.gif">
+</div>
 
 ---
 
