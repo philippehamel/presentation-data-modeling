@@ -163,7 +163,6 @@ JOIN star_dim_player p
 WHERE p.birth_country = 'USA'
   AND f.launch_speed &gt; 0
 GROUP BY p.player_id, p.full_name, p.birth_country
-HAVING COUNT(*) &gt;= 5
 ORDER BY avg_exit_velocity DESC LIMIT 10;</code></pre>
   </div>
   <div class="query-item">
@@ -178,7 +177,6 @@ JOIN snowflake_dim_birth_location bl
 WHERE bl.birth_country = 'USA'
   AND f.launch_speed &gt; 0
 GROUP BY p.player_key, p.full_name, bl.birth_country
-HAVING COUNT(*) &gt;= 5
 ORDER BY avg_exit_velocity DESC LIMIT 10;</code></pre>
   </div>
 </div>
@@ -189,15 +187,13 @@ ORDER BY avg_exit_velocity DESC LIMIT 10;</code></pre>
 <div class="single-query-container">
   <div class="single-query-item">
     <h3>One Big Table</h3>
-    <pre><code>SELECT batter_full_name, batter_birth_country,
-  ROUND(AVG(launch_speed), 2) as avg_exit_velocity,
-  COUNT(*) as total_batted_balls
+    <pre><code>SELECT batter_full_name as full_name, batter_birth_country as birth_country,
+  ROUND(AVG(launch_speed), 2) as avg_exit_velocity
 FROM one_big_table
 WHERE batter_birth_country = 'USA'
   AND launch_speed IS NOT NULL
   AND launch_speed &gt; 0
-GROUP BY batter, batter_full_name, batter_birth_country
-HAVING COUNT(*) &gt;= 5
+GROUP BY batter, full_name, birth_country
 ORDER BY avg_exit_velocity DESC 
 LIMIT 10;</code></pre>
   </div>
