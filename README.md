@@ -2,20 +2,7 @@
 
 ## Introduction à la modélisation dimensionnelle avec des données MLB
 
-Ce projet démontre l'extraction, transformation et chargement (ETL) de données réelles de lancers MLB (Baseball Savant) pour la série Toronto Blue Jays vs. Colorado Rockies du 4-6 août 2025. L'objectif est de présenter différents exemples de modélisation dimensionnelle selon l'approche de Ralph Kimball.
-
-## Un peu d'histoire
-
-Dans les années 1990, deux approches principales ont émergé pour les entrepôts de données :
-
-- **Bill Inmon (Top Down)** : Approche normalisée, source de vérité centralisée
-- **Ralph Kimball (Bottom Up)** : Approche dimensionnelle, priorité à la simplicité et flexibilité
-
-L'approche de Kimball, formalisée en 1996, privilégie :
-
-- **Fact Tables** : Granulaires, longues, mesurables
-- **Dimension Tables** : Larges, Slowly Changing Dimensions, dénormalisées
-- **Optimisation** pour les technologies infonuagiques modernes (storage abordable)
+Ce projet démontre l'extraction, transformation et chargement (ETL) de données réelles de lancers MLB (Baseball Savant) pour la série Toronto Blue Jays vs. Colorado Rockies du 4-6 août 2025. L'objectif est de présenter différents exemples de modélisation dimensionnelle.
 
 ## Structure du projet
 
