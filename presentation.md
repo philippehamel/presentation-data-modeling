@@ -15,6 +15,14 @@ theme: dark-custom
 
 ---
 
+# Rangée (OLTP) VS Colonne (OLAP)
+
+<div class="img">
+  <img src="assets/row-vs-col.png">
+</div>
+
+---
+
 # Pourquoi?
 
 ## Être capable de répondre à des questions analytiques du genre :
@@ -22,14 +30,6 @@ theme: dark-custom
 - Quelle est la moyenne de vente pour nos utilisateurs à Montréal?
 - Quelle catégorie de produits a eu la meilleure croissance de revenus pendant le dernier trimestre financier?
 - Quels sont les joueurs nés aux USA qui ont frappé la balle avec le plus de vélocité pendant la dernière série de 3 matchs entre les Blue Jays et les Rockies?
-
----
-
-# Rangée (OLTP) VS Colonne (OLAP)
-
-<div class="img">
-  <img src="assets/row-vs-col.png">
-</div>
 
 ---
 
@@ -122,7 +122,7 @@ devient:
   <div class="comparison-item">
     <h3>Snowflake Schema</h3>
     <img src="assets/mlb-snowflake.svg" alt="MLB Snowflake Schema">
-    <p>Plus de jointures, meilleure performance de stockage</p>
+    <p>Plus de jointures, intégrité référentielle renforcée</p>
   </div>
 </div>
 
@@ -134,23 +134,26 @@ devient:
 
 <div class="queries-container">
   <div class="query-item">
-    <h3>Star Schema</h3>
-    <pre><code>SELECT p.full_name, p.birth_country,
-  ROUND(AVG(f.launch_speed), 2) as avg_exit_velocity
-FROM star_fact_pitch f
-JOIN star_dim_player p 
-  ON f.player_id_batter_fk = p.player_id
-WHERE p.birth_country = 'USA'
-  AND f.launch_speed > 0
-GROUP BY p.player_id, p.full_name, p.birth_country
-HAVING COUNT(*) >= 5
+    <h3>One Big Table</h3>
+    <pre><code>
+SELECT 
+  batter_full_name as full_name, 
+  batter_birth_country as birth_country,
+  ROUND(AVG(launch_speed), 2) as avg_exit_velocity
+FROM one_big_table
+WHERE batter_birth_country = 'USA'
+  AND launch_speed IS NOT NULL
+GROUP BY batter, full_name, birth_country
 ORDER BY avg_exit_velocity DESC 
 LIMIT 10;</code></pre>
   </div>
   
   <div class="query-item">
     <h3>Snowflake Schema</h3>
-    <pre><code>SELECT p.full_name, bl.birth_country,
+    <pre><code>
+SELECT 
+  p.full_name, 
+  bl.birth_country,
   ROUND(AVG(f.launch_speed), 2) as avg_exit_velocity
 FROM snowflake_fact_pitch f
 JOIN snowflake_dim_player p 
@@ -158,9 +161,8 @@ JOIN snowflake_dim_player p
 JOIN snowflake_dim_birth_location bl 
   ON p.location_key = bl.location_key
 WHERE bl.birth_country = 'USA'
-  AND f.launch_speed > 0
+  AND f.launch_speed IS NOT NULL
 GROUP BY p.player_key, p.full_name, bl.birth_country
-HAVING COUNT(*) >= 5
 ORDER BY avg_exit_velocity DESC 
 LIMIT 10;</code></pre>
   </div>
@@ -168,22 +170,23 @@ LIMIT 10;</code></pre>
 
 ---
 
-# One Big Table
-
-**Même exemple : Simplicité maximale, aucune jointure**
+# Star Schema
+## Compromis entre les deux approches
 
 <div class="single-query-container">
   <div class="single-query-item">
-    <h3>One Big Table</h3>
-    <pre><code>SELECT batter_full_name as full_name, batter_birth_country as birth_country,
-  ROUND(AVG(launch_speed), 2) as avg_exit_velocity
-FROM one_big_table
-WHERE batter_birth_country = 'USA'
-  AND launch_speed IS NOT NULL
-  AND launch_speed > 0
-GROUP BY batter, full_name, birth_country
-HAVING COUNT(*) >= 5
-ORDER BY avg_exit_velocity DESC 
+    <h3>Star Schema</h3>
+    <pre><code>
+SELECT
+  p.full_name,
+  p.birth_country,
+  ROUND(AVG(f.launch_speed), 2) as avg_exit_velocity
+FROM star_fact_pitch f
+JOIN star_dim_player p ON f.player_id_batter_fk = p.player_id
+WHERE p.birth_country = 'USA'
+  AND f.launch_speed IS NOT NULL
+GROUP BY p.player_id, p.full_name, p.birth_country
+ORDER BY avg_exit_velocity DESC
 LIMIT 10;</code></pre>
   </div>
 </div>
@@ -197,20 +200,16 @@ LIMIT 10;</code></pre>
     <h3>Operational</h3>
     <pre><code>
 SELECT
-    CONCAT(p.firstName, ' ', p.lastName) as fullName,
-    c.name as birthCountry,
-    ROUND(AVG(pb.exitVelocity), 2) as avgExitVelocity,
-    COUNT(*) as totalBattedBalls
+  CONCAT(p.firstName, ' ', p.lastName) as fullName,
+  c.name as birthCountry,
+  ROUND(AVG(pb.exitVelocity), 2) as avgExitVelocity
 FROM Player p
 JOIN Country c ON p.birthCountryId = c.id
 JOIN PlayerStatistic ps ON ps.playerId = p.id
 JOIN PitchByPitch pb ON pb.batterStatisticId = ps.id
 WHERE c.code = 'USA'
     AND pb.exitVelocity IS NOT NULL
-    AND pb.exitVelocity > 0
-    AND pb.ballInPlay = true
 GROUP BY p.id, p.firstName, p.lastName, c.name
-HAVING COUNT(*) >= 5
 ORDER BY avgExitVelocity DESC
 LIMIT 10;
 </code></pre>

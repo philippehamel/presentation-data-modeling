@@ -152,15 +152,12 @@ make query
 SELECT
     p.full_name,
     p.birth_country,
-    ROUND(AVG(f.launch_speed), 2) as avg_exit_velocity,
-    COUNT(*) as total_batted_balls
+    ROUND(AVG(f.launch_speed), 2) as avg_exit_velocity
 FROM star_fact_pitch f
 JOIN star_dim_player p ON f.player_id_batter_fk = p.player_id
 WHERE p.birth_country = 'USA'
     AND f.launch_speed IS NOT NULL
-    AND f.launch_speed > 0
 GROUP BY p.player_id, p.full_name, p.birth_country
-HAVING COUNT(*) >= 5
 ORDER BY avg_exit_velocity DESC
 LIMIT 10;
 ```
@@ -168,38 +165,34 @@ LIMIT 10;
 **Snowflake Schema :**
 
 ```sql
-SELECT
-    p.full_name,
+SELECT 
+    p.full_name, 
     bl.birth_country,
-    ROUND(AVG(f.launch_speed), 2) as avg_exit_velocity,
-    COUNT(*) as total_batted_balls
+    ROUND(AVG(f.launch_speed), 2) as avg_exit_velocity
 FROM snowflake_fact_pitch f
-JOIN snowflake_dim_player p ON f.player_key_batter = p.player_key
-JOIN snowflake_dim_birth_location bl ON p.location_key = bl.location_key
+JOIN snowflake_dim_player p 
+    ON f.player_key_batter = p.player_key
+JOIN snowflake_dim_birth_location bl 
+    ON p.location_key = bl.location_key
 WHERE bl.birth_country = 'USA'
     AND f.launch_speed IS NOT NULL
-    AND f.launch_speed > 0
 GROUP BY p.player_key, p.full_name, bl.birth_country
-HAVING COUNT(*) >= 5
-ORDER BY avg_exit_velocity DESC
+ORDER BY avg_exit_velocity DESC 
 LIMIT 10;
 ```
 
 **One Big Table :**
 
 ```sql
-SELECT
-    batter_full_name,
-    batter_birth_country,
-    ROUND(AVG(launch_speed), 2) as avg_exit_velocity,
-    COUNT(*) as total_batted_balls
+SELECT 
+    batter_full_name as full_name, 
+    batter_birth_country as birth_country,
+    ROUND(AVG(launch_speed), 2) as avg_exit_velocity
 FROM one_big_table
 WHERE batter_birth_country = 'USA'
     AND launch_speed IS NOT NULL
-    AND launch_speed > 0
-GROUP BY batter, batter_full_name, batter_birth_country
-HAVING COUNT(*) >= 5
-ORDER BY avg_exit_velocity DESC
+GROUP BY batter, full_name, birth_country
+ORDER BY avg_exit_velocity DESC 
 LIMIT 10;
 ```
 
@@ -213,17 +206,13 @@ SELECT
     CONCAT(p.firstName, ' ', p.lastName) as fullName,
     c.name as birthCountry,
     ROUND(AVG(pb.exitVelocity), 2) as avgExitVelocity,
-    COUNT(*) as totalBattedBalls
 FROM Player p
 JOIN Country c ON p.birthCountryId = c.id
 JOIN PlayerStatistic ps ON ps.playerId = p.id
 JOIN PitchByPitch pb ON pb.batterStatisticId = ps.id
 WHERE c.code = 'USA'
     AND pb.exitVelocity IS NOT NULL
-    AND pb.exitVelocity > 0
-    AND pb.ballInPlay = true
 GROUP BY p.id, p.firstName, p.lastName, c.name
-HAVING COUNT(*) >= 5
 ORDER BY avgExitVelocity DESC
 LIMIT 10;
 ```
