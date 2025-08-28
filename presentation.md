@@ -251,6 +251,7 @@ Le gain de clarté de la modélisation dimensionnelle accélère le développeme
 # Wow Phil c'était tellement intéressant, mais où en apprendre plus?
 
 - Data warehouse toolkit de Ralph Kimball et ressources en ligne du Kimball Group
+- dbt Labs blog
 - Joe Reiss Practical Data Modeling blog
 - Ben Rogojan Seattle Data Guy blog
 - Approches non dimensionnelles (exemple Data Vault ou Anchor)

@@ -8,6 +8,12 @@
 </div>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="2" data-theme="dark-custom" lang="en-CA" style="--theme:dark-custom;">
+<h1 id="rang%C3%A9e-oltp-vs-colonne-olap">Rangée (OLTP) VS Colonne (OLAP)</h1>
+<div class="img">
+  <img src="assets/row-vs-col.png" />
+</div>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="3" data-theme="dark-custom" lang="en-CA" style="--theme:dark-custom;">
 <h1 id="pourquoi">Pourquoi?</h1>
 <h2 id="%C3%AAtre-capable-de-r%C3%A9pondre-%C3%A0-des-questions-analytiques-du-genre">Être capable de répondre à des questions analytiques du genre :</h2>
 <ul>
@@ -15,12 +21,6 @@
 <li>Quelle catégorie de produits a eu la meilleure croissance de revenus pendant le dernier trimestre financier?</li>
 <li>Quels sont les joueurs nés aux USA qui ont frappé la balle avec le plus de vélocité pendant la dernière série de 3 matchs entre les Blue Jays et les Rockies?</li>
 </ul>
-</section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="3" data-theme="dark-custom" lang="en-CA" style="--theme:dark-custom;">
-<h1 id="rang%C3%A9e-oltp-vs-colonne-olap">Rangée (OLTP) VS Colonne (OLAP)</h1>
-<div class="img">
-  <img src="assets/row-vs-col.png" />
-</div>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="4" data-theme="dark-custom" lang="en-CA" style="--theme:dark-custom;">
 <h1 id="lapproche-de-kimball">L'approche de Kimball</h1>
@@ -151,7 +151,7 @@
   <div class="comparison-item">
     <h3>Snowflake Schema</h3>
     <img src="assets/mlb-snowflake.svg" alt="MLB Snowflake Schema" />
-    <p>Plus de jointures, meilleure performance de stockage</p>
+    <p>Plus de jointures, intégrité référentielle renforcée</p>
   </div>
 </div>
 </section>
@@ -160,22 +160,25 @@
 <p><strong>Exemple : Joueurs nés aux USA avec la plus haute vélocité de balle frappée</strong></p>
 <div class="queries-container">
   <div class="query-item">
-    <h3>Star Schema</h3>
-    <pre><code>SELECT p.full_name, p.birth_country,
-  ROUND(AVG(f.launch_speed), 2) as avg_exit_velocity
-FROM star_fact_pitch f
-JOIN star_dim_player p 
-  ON f.player_id_batter_fk = p.player_id
-WHERE p.birth_country = 'USA'
-  AND f.launch_speed &gt; 0
-GROUP BY p.player_id, p.full_name, p.birth_country
-HAVING COUNT(*) &gt;= 5
+    <h3>One Big Table</h3>
+    <pre><code>
+SELECT 
+  batter_full_name as full_name, 
+  batter_birth_country as birth_country,
+  ROUND(AVG(launch_speed), 2) as avg_exit_velocity
+FROM one_big_table
+WHERE batter_birth_country = 'USA'
+  AND launch_speed IS NOT NULL
+GROUP BY batter, full_name, birth_country
 ORDER BY avg_exit_velocity DESC 
 LIMIT 10;</code></pre>
   </div>
   <div class="query-item">
     <h3>Snowflake Schema</h3>
-    <pre><code>SELECT p.full_name, bl.birth_country,
+    <pre><code>
+SELECT 
+  p.full_name, 
+  bl.birth_country,
   ROUND(AVG(f.launch_speed), 2) as avg_exit_velocity
 FROM snowflake_fact_pitch f
 JOIN snowflake_dim_player p 
@@ -183,29 +186,30 @@ JOIN snowflake_dim_player p
 JOIN snowflake_dim_birth_location bl 
   ON p.location_key = bl.location_key
 WHERE bl.birth_country = 'USA'
-  AND f.launch_speed &gt; 0
+  AND f.launch_speed IS NOT NULL
 GROUP BY p.player_key, p.full_name, bl.birth_country
-HAVING COUNT(*) &gt;= 5
 ORDER BY avg_exit_velocity DESC 
 LIMIT 10;</code></pre>
   </div>
 </div>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="12" data-theme="dark-custom" lang="en-CA" style="--theme:dark-custom;">
-<h1 id="one-big-table">One Big Table</h1>
-<p><strong>Même exemple : Simplicité maximale, aucune jointure</strong></p>
+<h1 id="star-schema">Star Schema</h1>
+<h2 id="compromis-entre-les-deux-approches">Compromis entre les deux approches</h2>
 <div class="single-query-container">
   <div class="single-query-item">
-    <h3>One Big Table</h3>
-    <pre><code>SELECT batter_full_name as full_name, batter_birth_country as birth_country,
-  ROUND(AVG(launch_speed), 2) as avg_exit_velocity
-FROM one_big_table
-WHERE batter_birth_country = 'USA'
-  AND launch_speed IS NOT NULL
-  AND launch_speed &gt; 0
-GROUP BY batter, full_name, birth_country
-HAVING COUNT(*) &gt;= 5
-ORDER BY avg_exit_velocity DESC 
+    <h3>Star Schema</h3>
+    <pre><code>
+SELECT
+  p.full_name,
+  p.birth_country,
+  ROUND(AVG(f.launch_speed), 2) as avg_exit_velocity
+FROM star_fact_pitch f
+JOIN star_dim_player p ON f.player_id_batter_fk = p.player_id
+WHERE p.birth_country = 'USA'
+  AND f.launch_speed IS NOT NULL
+GROUP BY p.player_id, p.full_name, p.birth_country
+ORDER BY avg_exit_velocity DESC
 LIMIT 10;</code></pre>
   </div>
 </div>
@@ -217,20 +221,16 @@ LIMIT 10;</code></pre>
     <h3>Operational</h3>
     <pre><code>
 SELECT
-    CONCAT(p.firstName, ' ', p.lastName) as fullName,
-    c.name as birthCountry,
-    ROUND(AVG(pb.exitVelocity), 2) as avgExitVelocity,
-    COUNT(*) as totalBattedBalls
+  CONCAT(p.firstName, ' ', p.lastName) as fullName,
+  c.name as birthCountry,
+  ROUND(AVG(pb.exitVelocity), 2) as avgExitVelocity
 FROM Player p
 JOIN Country c ON p.birthCountryId = c.id
 JOIN PlayerStatistic ps ON ps.playerId = p.id
 JOIN PitchByPitch pb ON pb.batterStatisticId = ps.id
 WHERE c.code = 'USA'
     AND pb.exitVelocity IS NOT NULL
-    AND pb.exitVelocity &gt; 0
-    AND pb.ballInPlay = true
 GROUP BY p.id, p.firstName, p.lastName, c.name
-HAVING COUNT(*) &gt;= 5
 ORDER BY avgExitVelocity DESC
 LIMIT 10;
 </code></pre>
@@ -266,6 +266,7 @@ LIMIT 10;
 <h1 id="wow-phil-c%C3%A9tait-tellement-int%C3%A9ressant-mais-o%C3%B9-en-apprendre-plus">Wow Phil c'était tellement intéressant, mais où en apprendre plus?</h1>
 <ul>
 <li>Data warehouse toolkit de Ralph Kimball et ressources en ligne du Kimball Group</li>
+<li>dbt Labs blog</li>
 <li>Joe Reiss Practical Data Modeling blog</li>
 <li>Ben Rogojan Seattle Data Guy blog</li>
 <li>Approches non dimensionnelles (exemple Data Vault ou Anchor)</li>

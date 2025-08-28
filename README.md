@@ -247,7 +247,7 @@ Le gain de clarté de la modélisation dimensionnelle accélère le développeme
 
 - **Data Warehouse Toolkit** de Ralph Kimball [link](https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/books/data-warehouse-dw-toolkit/)
 - **Ressources Kimball Group** [link](https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/)
-- **Le rôle de développeur analytique** de dbt [link](https://www.getdbt.com/blog/what-is-analytics-engineering)
+- **dbt Labs blog** de Daniel Poppy [link](https://www.getdbt.com/blog/guide-to-dimensional-modeling)
 - **Practical Data Modeling blog** de Joe Reiss [link](https://practicaldatamodeling.substack.com/)
 - **Seattle Data Guy blog** de Ben Rogojan [link](https://www.theseattledataguy.com/data-science-consulting-blog/)
 - **Approches non dimensionnelles** : [Data Vault](https://en.wikipedia.org/wiki/Data_vault_modeling), [Anchor Modeling](https://en.wikipedia.org/wiki/Anchor_modeling)
