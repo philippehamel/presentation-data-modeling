@@ -160,7 +160,7 @@ WHERE p.birth_country = 'USA'
     AND f.launch_speed IS NOT NULL
     AND f.launch_speed > 0
 GROUP BY p.player_id, p.full_name, p.birth_country
-HAVING COUNT(*) >= 5  -- Au moins 5 balles frappées
+HAVING COUNT(*) >= 5
 ORDER BY avg_exit_velocity DESC
 LIMIT 10;
 ```
@@ -270,8 +270,8 @@ Le gain de clarté de la modélisation dimensionnelle accélère le développeme
 ### Avantages Parquet (Recommandé) :
 
 - **Efficacité storage** : 60-80% de réduction de taille grâce à la compression colonnaire
-- **Performance de chargement** : 2-5x plus rapide dans DuckDB
-- **Performance de requête** : 3-10x plus rapide pour l'analytique
+- **Performance de chargement** : plus rapide dans DuckDB
+- **Performance de requête** : plus rapide pour l'analytique
 - **Support natif** : DuckDB optimisé pour le format Parquet
 - **Préservation du schéma** : Maintient types de données et gestion des nulls
 

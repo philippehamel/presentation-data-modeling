@@ -7,7 +7,7 @@ theme: dark-custom
 
 ## Ou
 
-## Introduction à la modélisation dimensionelle
+## Introduction à la modélisation dimensionnelle
 
 <div class="gif-container">
   <img src="assets/joke-pun.gif">
@@ -17,11 +17,11 @@ theme: dark-custom
 
 # Pourquoi?
 
-## Être capable de répondre a des questions analytique du genre :
+## Être capable de répondre à des questions analytiques du genre :
 
-- Quelle est la moyenne de vente pour nos utilisateurs a Montréal?
-- Sur quelle catégorie de produits a eu la meilleure croissance de revenue pendant le dernier quart financier?
-- Quelles sont les joueurs née au USA qui ont frappé la balle avec le plus de vélocité pendant la dernière série de 3 matchs entre les Blue Jays et les Rockies?
+- Quelle est la moyenne de vente pour nos utilisateurs à Montréal?
+- Sur quelle catégorie de produits a eu la meilleure croissance de revenus pendant le dernier trimestre financier?
+- Quels sont les joueurs nés aux USA qui ont frappé la balle avec le plus de vélocité pendant la dernière série de 3 matchs entre les Blue Jays et les Rockies?
 
 ---
 
@@ -46,7 +46,7 @@ theme: dark-custom
 
 ---
 
-# Exemple appliqué dans mon sand box préféré
+# Exemple appliqué dans mon sandbox préféré
 
 ## Nous allons modéliser une saison de baseball
 
@@ -58,14 +58,14 @@ theme: dark-custom
 
 # Méthode standard
 
-- Choisir un processus d'affaire: Performance des joueurs
+- Choisir un processus d'affaires: Performance des joueurs
 - Déclarer le grain: Niveau le plus bas de détails
 - Identifier les dimensions: Attributs descriptifs utilisés pour filtrer, grouper et étiqueter
-- Identifier les facts: Mesures quatitatives
+- Identifier les faits: Mesures quantitatives
 
 ---
 
-# Technique fact tables
+# Techniques fact tables
 
 - Transactionnel: chacun des lancers
 - Accumulative: présence au bâton ou match
@@ -73,9 +73,9 @@ theme: dark-custom
 
 ---
 
-# Technique dimension tables
+# Techniques dimension tables
 
-- Slowly changing dimension sont des dimensions dont les attributs évoluent lentement au fil du temps
+- Slowly changing dimensions sont des dimensions dont les attributs évoluent lentement au fil du temps
   - **Type 0** : Aucun changement
   - **Type 1** : Écrasement des valeurs
   - **Type 2** : Conservation de l'historique
@@ -83,9 +83,9 @@ theme: dark-custom
 <div class="scd-example">
 
 **Exemple SCD Type 2 - Transfert de joueur :**
-| Joueur       | ID     | Équipe  | Date début | Date fin   | Actif |
+| Joueur | ID | Équipe | Date début | Date fin | Actif |
 | ------------ | ------ | ------- | ---------- | ---------- | ----- |
-| Danny Jansen | 643376 | **TOR** | 2018-08-15 | 2100-01-01 | true|
+| Danny Jansen | 643376 | **TOR** | 2018-08-15 | 2100-01-01 | true |
 
 devient:
 
@@ -98,7 +98,7 @@ devient:
 
 ---
 
-# Technique dimension tables
+# Techniques dimension tables
 
 - Normalisation
   - **Schéma en étoile** : Dimensions dénormalisées
@@ -123,7 +123,7 @@ devient:
 
 # Résultats
 
-**Exemple : Joueurs nés aux USA avec avec la plus haute vélocité de balle frappé**
+**Exemple : Joueurs nés aux USA avec la plus haute vélocité de balle frappée**
 
 <div class="queries-container">
   <div class="query-item">
@@ -180,7 +180,7 @@ LIMIT 10;</code></pre>
 
 # Conclusion
 
-Avec l'approche dimensionnelle vous possèder plusieurs levier :
+Avec l'approche dimensionnelle vous possédez plusieurs leviers :
 
 - Granularité
 - Normalisation
@@ -200,7 +200,7 @@ Pour optimiser les caractéristiques que vos requis demandent :
 
 ## Clarté
 
-Le gain de clarté de la modèlisation dimensonnielle, accélère le développement, facilite la maintenance et promeut la fiabilité.
+Le gain de clarté de la modélisation dimensionnelle accélère le développement, facilite la maintenance et promeut la fiabilité.
 
 <div class="img">
   <img src="assets/dying-hill.jpg">
@@ -209,10 +209,11 @@ Le gain de clarté de la modèlisation dimensonnielle, accélère le développem
 ---
 
 # Wow Phil c'était tellement intéressant, mais où en apprendre plus?
-- Data warehouse toolkit de Ralph Kimball et ressource en ligne du Kimball Group
+
+- Data warehouse toolkit de Ralph Kimball et ressources en ligne du Kimball Group
 - Joe Reiss Practical Data Modeling blog
 - Ben Rogojan Seattle Data Guy blog
-- Approche non dimensionelle (exemple Data Vault ou Anchor)
+- Approches non dimensionnelles (exemple Data Vault ou Anchor)
 
 <div class="gif-container">
   <img src="assets/tell-us-more.gif">
