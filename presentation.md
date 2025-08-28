@@ -20,7 +20,7 @@ theme: dark-custom
 ## Être capable de répondre à des questions analytiques du genre :
 
 - Quelle est la moyenne de vente pour nos utilisateurs à Montréal?
-- Sur quelle catégorie de produits a eu la meilleure croissance de revenus pendant le dernier trimestre financier?
+- Quelle catégorie de produits a eu la meilleure croissance de revenus pendant le dernier trimestre financier?
 - Quels sont les joueurs nés aux USA qui ont frappé la balle avec le plus de vélocité pendant la dernière série de 3 matchs entre les Blue Jays et les Rockies?
 
 ---
