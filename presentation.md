@@ -238,9 +238,9 @@ Pour optimiser les caractéristiques que vos requis demandent :
 
 # Mon avantage favori
 
-## Clarté
+## ROI
 
-Le gain de clarté de la modélisation dimensionnelle accélère le développement, facilite la maintenance et promeut la fiabilité.
+La modélisation dimensionnelle accélère le développement, facilite la maintenance et promeut la fiabilité.
 
 <div class="big-img">
   <img src="assets/dying-hill.jpg">
