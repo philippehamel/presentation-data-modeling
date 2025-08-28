@@ -81,7 +81,12 @@ footer {
 .img {
   display: flex;
   justify-content: center;
-  height: 50%;
+}
+
+.big-img {
+  display: flex;
+  justify-content: center;
+  height: 70%;
 }
 
 

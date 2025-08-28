@@ -208,7 +208,7 @@ LIMIT 10;
 Dans un ORM comme JPA/Hibernate suivant les meilleures pratiques, cette même requête ressemblerait à :
 
 ```sql
--- Schéma normalisé traditionnel avec entités JPA
+-- Schéma normalisé traditionnel avec entités style JPA
 SELECT
     CONCAT(p.firstName, ' ', p.lastName) as fullName,
     c.name as birthCountry,

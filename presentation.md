@@ -98,6 +98,13 @@ devient:
 
 ---
 
+# Qu'est-ce que la normalization
+<div class="img">
+  <img src="assets/normalization-example.svg">
+</div>
+
+---
+
 # Techniques dimension tables
 
 - Normalisation
@@ -136,7 +143,9 @@ JOIN star_dim_player p
 WHERE p.birth_country = 'USA'
   AND f.launch_speed > 0
 GROUP BY p.player_id, p.full_name, p.birth_country
-ORDER BY avg_exit_velocity DESC LIMIT 10;</code></pre>
+HAVING COUNT(*) >= 5
+ORDER BY avg_exit_velocity DESC 
+LIMIT 10;</code></pre>
   </div>
   
   <div class="query-item">
@@ -151,7 +160,9 @@ JOIN snowflake_dim_birth_location bl
 WHERE bl.birth_country = 'USA'
   AND f.launch_speed > 0
 GROUP BY p.player_key, p.full_name, bl.birth_country
-ORDER BY avg_exit_velocity DESC LIMIT 10;</code></pre>
+HAVING COUNT(*) >= 5
+ORDER BY avg_exit_velocity DESC 
+LIMIT 10;</code></pre>
   </div>
 </div>
 
@@ -171,8 +182,38 @@ WHERE batter_birth_country = 'USA'
   AND launch_speed IS NOT NULL
   AND launch_speed > 0
 GROUP BY batter, full_name, birth_country
+HAVING COUNT(*) >= 5
 ORDER BY avg_exit_velocity DESC 
 LIMIT 10;</code></pre>
+  </div>
+</div>
+
+---
+
+# Style 'opérationnel'
+
+<div class="single-query-container">
+  <div class="single-query-item">
+    <h3>Operational</h3>
+    <pre><code>
+SELECT
+    CONCAT(p.firstName, ' ', p.lastName) as fullName,
+    c.name as birthCountry,
+    ROUND(AVG(pb.exitVelocity), 2) as avgExitVelocity,
+    COUNT(*) as totalBattedBalls
+FROM Player p
+JOIN Country c ON p.birthCountryId = c.id
+JOIN PlayerStatistic ps ON ps.playerId = p.id
+JOIN PitchByPitch pb ON pb.batterStatisticId = ps.id
+WHERE c.code = 'USA'
+    AND pb.exitVelocity IS NOT NULL
+    AND pb.exitVelocity > 0
+    AND pb.ballInPlay = true
+GROUP BY p.id, p.firstName, p.lastName, c.name
+HAVING COUNT(*) >= 5
+ORDER BY avgExitVelocity DESC
+LIMIT 10;
+</code></pre>
   </div>
 </div>
 
@@ -202,7 +243,7 @@ Pour optimiser les caractéristiques que vos requis demandent :
 
 Le gain de clarté de la modélisation dimensionnelle accélère le développement, facilite la maintenance et promeut la fiabilité.
 
-<div class="img">
+<div class="big-img">
   <img src="assets/dying-hill.jpg">
 </div>
 
@@ -221,6 +262,6 @@ Le gain de clarté de la modélisation dimensionnelle accélère le développeme
 
 ---
 
-<div class="img">
+<div class="big-img">
   <img src="assets/frame.png">
 </div>
